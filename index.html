@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus - Modern Design System</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-dark': '#000000',
+                        'light-bg': '#F4F4F5',
+                        'zinc-accent': '#18181B',
+                        'emerald-hi': '#34D399',
+                    },
+                    letterSpacing: {
+                        'tight-hd': '-0.05em',
+                        'widest-label': '0.2em',
+                    },
+                    lineHeight: {
+                        'tight-hd': '1.05',
+                    },
+                    borderRadius: {
+                        'wrapper': '40px',
+                        'card-sm': '16px',
+                        'card-lg': '24px',
+                    },
+                    transitionTimingFunction: {
+                        'custom-ease': 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    },
+                    keyframes: {
+                        'fade-in-up': {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden; 
+        }
+
+        /* Fixed Grain Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-light {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Typography Utilities */
+        .heading-style {
+            font-weight: 600;
+            letter-spacing: -0.05em;
+            line-height: 1.05;
+        }
+
+        .label-style {
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* Scroll Animation Classes */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+    </style>
+</head>
+<body class="selection:bg-emerald-hi selection:text-black font-sans">
+
+    <div class="grain-overlay"></div>
+
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-nav rounded-full p-1.5 flex items-center gap-1 max-w-[95vw] overflow-x-auto no-scrollbar shadow-2xl shadow-black/50">
+        <a href="#platform" class="px-5 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-300 whitespace-nowrap">Platform</a>
+        <a href="#solutions" class="px-5 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-300 whitespace-nowrap">Solutions</a>
+        <a href="#resources" class="px-5 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-300 whitespace-nowrap">Resources</a>
+        <a href="#pricing" class="px-5 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-300 whitespace-nowrap">Pricing</a>
+    </nav>
+
+    <main class="max-w-[1600px] mx-auto p-4 md:p-6 space-y-6">
+
+        <section id="platform" class="relative min-h-[92vh] rounded-wrapper overflow-hidden bg-gradient-to-b from-zinc-950/40 to-zinc-950/90 flex items-center">
+            
+            <div class="absolute inset-0 z-0 opacity-60 mix-blend-luminosity">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Abstract Background" class="w-full h-full object-cover">
+            </div>
+            
+            <div class="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
+                <h1 class="text-[22vw] font-bold text-white opacity-[0.03] blur-[12px] select-none heading-style transform -translate-y-12">CREATE</h1>
+            </div>
+
+            <div class="relative z-10 w-full px-6 md:px-16 lg:px-24 grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-8 reveal-on-scroll">
+                    <div class="inline-block glass-panel rounded-full px-4 py-1.5 mb-2">
+                        <span class="label-style text-emerald-hi">Nexus System 2.0</span>
+                    </div>
+                    <h2 class="text-5xl md:text-7xl lg:text-8xl heading-style text-white">
+                        Design with <br/>
+                        <span class="text-emerald-hi italic pr-4">Precision.</span>
+                    </h2>
+                    <p class="text-zinc-400 text-lg md:text-xl font-light max-w-xl leading-relaxed">
+                        A sophisticated structural framework focused on depth, absolute clarity, and fluid interactions for next-generation interfaces.
+                    </p>
+                    
+                    <div class="pt-4">
+                        <button class="group inline-flex items-center gap-4 bg-white rounded-full pl-6 pr-2 py-2 hover:scale-105 transition-transform duration-300 custom-ease shadow-[0_0_40px_-10px_rgba(52,211,153,0.3)] focus:outline-none focus:ring-4 focus:ring-emerald-hi/50">
+                            <span class="font-medium text-zinc-900">Initialize Environment</span>
+                            <div class="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center group-hover:bg-zinc-700 transition-colors duration-300">
+                                <i class="ph ph-arrow-right text-white text-lg"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col gap-4 items-end lg:pr-8 w-full">
+                    <div class="glass-panel rounded-card-lg p-5 w-full max-w-[320px] reveal-on-scroll delay-100 hover:bg-white/10 transition-colors duration-300 cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <i class="ph ph-activity text-emerald-hi text-2xl"></i>
+                            <span class="label-style text-white/50">Performance</span>
+                        </div>
+                        <div class="text-4xl font-semibold heading-style mb-1">99.9%</div>
+                        <div class="text-sm text-white/60 font-light">Uptime across global edge network</div>
+                    </div>
+
+                    <div class="glass-panel rounded-card-lg p-5 w-full max-w-[320px] reveal-on-scroll delay-200 hover:bg-white/10 transition-colors duration-300 cursor-default ml-auto lg:ml-0 lg:-translate-x-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <i class="ph ph-cpu text-emerald-hi text-2xl"></i>
+                            <span class="label-style text-white/50">Processing</span>
+                        </div>
+                        <div class="text-4xl font-semibold heading-style mb-1">&lt;12ms</div>
+                        <div class="text-sm text-white/60 font-light">Average query latency globally</div>
+                    </div>
+
+                    <div class="glass-panel rounded-card-lg p-5 w-full max-w-[320px] reveal-on-scroll delay-300 hover:bg-white/10 transition-colors duration-300 cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <i class="ph ph-users text-emerald-hi text-2xl"></i>
+                            <span class="label-style text-white/50">Concurrency</span>
+                        </div>
+                        <div class="text-4xl font-semibold heading-style mb-1">10M+</div>
+                        <div class="text-sm text-white/60 font-light">Simultaneous active connections</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solutions" class="bg-light-bg text-zinc-900 rounded-wrapper p-6 md:p-16 lg:p-24 relative overflow-hidden">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 relative z-10">
+                
+                <div class="space-y-12 reveal-on-scroll">
+                    <div class="lg:sticky lg:top-32">
+                        <h2 class="text-4xl md:text-5xl heading-style mb-6 text-zinc-900">
+                            Structured for clarity.<br/>Built for scale.
+                        </h2>
+                        <p class="text-zinc-500 font-light text-lg mb-12 max-w-md">
+                            Every component is meticulously crafted to maintain visual harmony while delivering uncompromising performance.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="space-y-3 group cursor-pointer">
+                                <div class="w-12 h-12 rounded-full bg-zinc-200/50 flex items-center justify-center text-zinc-700 group-hover:bg-zinc-300/50 transition-colors">
+                                    <i class="ph ph-boundingBox text-xl group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                <h4 class="font-semibold text-sm">Modular Layouts</h4>
+                            </div>
+                            <div class="space-y-3 group cursor-pointer">
+                                <div class="w-12 h-12 rounded-full bg-zinc-200/50 flex items-center justify-center text-zinc-700 group-hover:bg-zinc-300/50 transition-colors">
+                                    <i class="ph ph-palette text-xl group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                <h4 class="font-semibold text-sm">Adaptive Theming</h4>
+                            </div>
+                            <div class="space-y-3 group cursor-pointer">
+                                <div class="w-12 h-12 rounded-full bg-zinc-200/50 flex items-center justify-center text-zinc-700 group-hover:bg-zinc-300/50 transition-colors">
+                                    <i class="ph ph-lightning text-xl group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                <h4 class="font-semibold text-sm">Hardware Accel</h4>
+                            </div>
+                            <div class="space-y-3 group cursor-pointer">
+                                <div class="w-12 h-12 rounded-full bg-zinc-200/50 flex items-center justify-center text-zinc-700 group-hover:bg-zinc-300/50 transition-colors">
+                                    <i class="ph ph-lock-key text-xl group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                <h4 class="font-semibold text-sm">Enterprise Sec</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-on-scroll delay-200">
+                    <div class="bg-white rounded-[32px] border border-zinc-200/60 overflow-hidden relative group aspect-[4/5] shadow-sm w-full">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" 
+                             alt="System Interface" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[800ms] custom-ease">
+                        
+                        <div class="absolute bottom-6 right-6 left-6 md:left-auto md:w-80 glass-light rounded-card-lg p-5 shadow-2xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="font-semibold text-sm">System Analysis</span>
+                                <span class="flex h-2 w-2 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-hi opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs text-zinc-500 mb-1">
+                                        <span>CPU Usage</span>
+                                        <span>32%</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-zinc-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-zinc-800 rounded-full w-[32%] transition-all duration-1000 ease-out"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs text-zinc-500 mb-1">
+                                        <span>Memory Load</span>
+                                        <span>68%</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-zinc-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-emerald-500 rounded-full w-[68%] transition-all duration-1000 ease-out delay-300"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="bg-zinc-accent text-white rounded-wrapper p-6 md:p-16 lg:p-24 relative overflow-hidden flex flex-col justify-center min-h-[80vh]">
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-zinc-accent/50 to-zinc-accent z-0"></div>
+            
+            <div class="absolute inset-0 z-0 opacity-[0.03]" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+            <div class="relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                
+                <div class="space-y-8 reveal-on-scroll">
+                    <h3 class="text-3xl md:text-4xl heading-style mb-8 md:mb-12">Seamless Integration Pipeline</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/5 border border-white/10 rounded-card-lg p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start hover:bg-white/10 transition-colors duration-300 cursor-pointer">
+                            <span class="text-3xl font-light text-emerald-hi heading-style opacity-80">01</span>
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">Initialize Core Assets</h4>
+                                <p class="text-sm text-zinc-400 font-light leading-relaxed">Import the base library and configure your environmental variables. The system automatically optimizes for your deployment target.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/5 border border-white/10 rounded-card-lg p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start hover:bg-white/10 transition-colors duration-300 cursor-pointer">
+                            <span class="text-3xl font-light text-white/30 heading-style">02</span>
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">Deploy & Scale</h4>
+                                <p class="text-sm text-zinc-400 font-light leading-relaxed">Push to the edge network with a single command. Traffic is routed globally ensuring sub-10ms response times.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-on-scroll delay-200 perspective-[1200px] py-12 px-4 sm:px-0">
+                    <div class="relative bg-[#09090b] border border-white/10 rounded-xl overflow-hidden shadow-[0_20px_50px_-15px_rgba(52,211,153,0.15)] transform md:rotate-[3deg] md:rotate-y-[-10deg] transition-transform duration-700 hover:rotate-0 hover:rotate-y-0 custom-ease w-full max-w-lg mx-auto">
+                        
+                        <div class="bg-white/5 border-b border-white/10 px-4 py-3 flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+                            <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+                            <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+                            <div class="ml-4 text-xs font-mono text-zinc-500">config.yaml</div>
+                        </div>
+
+                        <div class="p-6 font-mono text-sm space-y-4 text-zinc-300 overflow-x-auto">
+                            <div class="flex">
+                                <span class="text-zinc-600 mr-4 select-none">1</span>
+                                <span class="text-emerald-400">version:</span> <span class="text-zinc-300 ml-2">'2.0'</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-zinc-600 mr-4 select-none">2</span>
+                                <span class="text-emerald-400">services:</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-zinc-600 mr-4 select-none">3</span>
+                                <span class="ml-4 text-zinc-400">web:</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-zinc-600 mr-4 select-none">4</span>
+                                <span class="ml-8 text-zinc-400">build:</span> <span class="text-zinc-300 ml-2">.</span>
+                            </div>
+                            
+                            <div class="flex pt-2">
+                                <span class="text-zinc-600 mr-4 select-none">5</span>
+                                <div class="ml-8 glass-panel rounded-full px-3 py-1 text-xs text-white inline-flex items-center gap-2 whitespace-nowrap">
+                                    <i class="ph ph-spinner animate-spin text-emerald-hi"></i>
+                                    Compiling assets...
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute -bottom-3 -right-3 animate-bounce bg-emerald-hi text-black px-4 py-1.5 rounded-full text-xs font-bold shadow-lg shadow-emerald-hi/20 z-20 hidden sm:block">
+                            System Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="bg-white text-zinc-900 rounded-wrapper p-6 md:p-16 lg:p-24">
+            <div class="text-center max-w-2xl mx-auto mb-12 md:mb-16 reveal-on-scroll">
+                <span class="label-style text-zinc-400 mb-4 block">Deployment Plans</span>
+                <h2 class="text-4xl md:text-5xl heading-style text-zinc-900">Scale without friction.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="bg-white rounded-[32px] border border-zinc-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col reveal-on-scroll transform hover:-translate-y-2">
+                    <div class="relative h-48 bg-zinc-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2064&auto=format&fit=crop" alt="Starter" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <div>
+                                <div class="text-white font-medium text-lg">Starter</div>
+                                <div class="text-white/70 text-sm">For personal projects</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 md:p-8 flex-1 flex flex-col">
+                        <div class="mb-6">
+                            <span class="text-4xl font-semibold heading-style">$0</span>
+                            <span class="text-zinc-500 text-sm">/month</span>
+                        </div>
+                        <ul class="space-y-3 mb-8 flex-1 text-sm text-zinc-600">
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> Up to 3 projects</li>
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> Community support</li>
+                            <li class="flex items-center gap-2 text-zinc-400"><i class="ph ph-x-circle text-lg"></i> Custom domains</li>
+                        </ul>
+                        <button class="w-full py-3 rounded-full bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-200 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-300">Start Free</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[32px] border-2 border-emerald-400 overflow-hidden shadow-lg shadow-emerald-500/10 hover:shadow-xl transition-all duration-500 flex flex-col relative reveal-on-scroll delay-100 transform hover:-translate-y-2">
+                    <div class="absolute top-4 right-4 bg-emerald-hi text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full z-10">Popular</div>
+                    
+                    <div class="relative h-48 bg-zinc-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2068&auto=format&fit=crop" alt="Pro" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <div>
+                                <div class="text-white font-medium text-lg">Professional</div>
+                                <div class="text-white/70 text-sm">For growing teams</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 md:p-8 flex-1 flex flex-col">
+                        <div class="mb-6">
+                            <span class="text-4xl font-semibold heading-style">$49</span>
+                            <span class="text-zinc-500 text-sm">/month</span>
+                        </div>
+                        <ul class="space-y-3 mb-8 flex-1 text-sm text-zinc-600">
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> Unlimited projects</li>
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> Priority support</li>
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> Custom domains</li>
+                        </ul>
+                        <button class="group w-full flex items-center justify-between bg-zinc-900 rounded-full pl-6 pr-2 py-2 hover:bg-zinc-800 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2">
+                            <span class="font-medium text-white">Upgrade to Pro</span>
+                            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                <i class="ph ph-arrow-right text-white"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[32px] border border-zinc-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col reveal-on-scroll delay-200 transform hover:-translate-y-2">
+                    <div class="relative h-48 bg-zinc-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=2032&auto=format&fit=crop" alt="Enterprise" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <div>
+                                <div class="text-white font-medium text-lg">Enterprise</div>
+                                <div class="text-white/70 text-sm">Custom solutions</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 md:p-8 flex-1 flex flex-col">
+                        <div class="mb-6">
+                            <span class="text-4xl font-semibold heading-style">Custom</span>
+                        </div>
+                        <ul class="space-y-3 mb-8 flex-1 text-sm text-zinc-600">
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> Dedicated infrastructure</li>
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> 24/7 Phone support</li>
+                            <li class="flex items-center gap-2"><i class="ph ph-check-circle text-emerald-500 text-lg"></i> SLA guarantee</li>
+                        </ul>
+                        <button class="w-full py-3 rounded-full bg-white border border-zinc-200 text-zinc-900 font-medium hover:bg-zinc-50 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-200">Contact Sales</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            const elementsToObserve = document.querySelectorAll('.reveal-on-scroll');
+            elementsToObserve.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
